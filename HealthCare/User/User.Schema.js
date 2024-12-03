@@ -19,7 +19,7 @@ export const userSchema = new mongoose.Schema({
     },
     registered_on : {
         type : Date,
-        default : Date.now()
+        default : ()=> ( new Date(new Date().getTime() - new Date().getTimezoneOffset()*60*1000) )
     },
     user_type : {
         type : String,

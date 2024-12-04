@@ -12,4 +12,8 @@ router.post("/signup", (req,res)=>{
     userController.signup(req,res) ;
 }) ;
 
+router.post("/add-details", (req,res)=>{
+    userController.addDetails(req,res) ;
+}) ;
+
 export default router ;

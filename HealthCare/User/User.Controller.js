@@ -31,11 +31,33 @@ export default class UserController{
             maxAge : 2*24*60*60*1000
         }).send("Login Successful") ;
     }
-    // For first time users
+    
     async signup(req, res){
         const {email, password, userType} = req.body ;
         const hashedPassword = await bcrypt.hash(password, Number(process.env.BCRYPT_ROUNDS)) ;
         const newUser = await this.userRepository.signup(email, hashedPassword, userType) ;
-        return res.status(201).json(newUser) ;
+        const token = jwt.sign(
+            {
+                userId : newUser.id,
+                email : newUser.email,
+                userType : newUser.user_type
+            },
+            process.env.JWT_SECRET,
+            {expiresIn : '1h'}
+        ) ;
+        return res.status(201).cookie('jwtToken', token, {
+            maxAge : 2*24*60*60*1000
+        }).json(newUser) ;
+    }
+
+    async addDetails(req, res){
+        const {name, age, gender, phoneNo} = req.body ;
+        const token = req.cookies.jwtToken ;
+        const userId = jwt.verify(token, process.env.JWT_SECRET).userId ;
+        const user = await this.userRepository.addDetails(userId, name, age, gender, phoneNo) ;
+        if(!user){
+            return res.status(404).send("User not found") ;
+        }
+        return res.status(200).json(user) ;
     }
 }

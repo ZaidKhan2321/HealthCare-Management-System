@@ -1,5 +1,6 @@
 import mongoose from 'mongoose' ;
 import { userSchema } from './User.Schema.js';
+import { ObjectId } from 'mongodb';
 
 const UserModel = mongoose.model('User', userSchema) ;
 
@@ -18,5 +19,10 @@ export default class UserRepository{
         const newUser = new UserModel({email, password, user_type}) ;
         await newUser.save() ;
         return newUser ;
+    }
+
+    async addDetails(userId, name, age, gender, phoneNo){
+        const user = await UserModel.findByIdAndUpdate(userId, {name, age, gender, phone_number : phoneNo}, {new : true}) ;
+        return user ;
     }
 }

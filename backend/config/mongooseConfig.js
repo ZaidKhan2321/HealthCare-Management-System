@@ -8,6 +8,6 @@ export const connectingUsingMongoose = async () => {
         }) ;
         console.log("MongoDB connected using mongoose") ;
     }catch(err){
-        console.log("Error connecting to mongoDB") ;
+        console.log(`Error connecting to mongoDB, err: ${err.message}`) ;
     }
 } ;

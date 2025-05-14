@@ -9,9 +9,9 @@ export default class DoctorController {
         try {
             const userId = req.user._id;
             const data = { ...req.body, userId };
+            console.log(data) ;
             const existing = await this.doctorRepo.getDoctorByUserId(userId);
             if (existing) return res.status(400).json({ message: 'Profile already exists' });
-            
             const doctor = await this.doctorRepo.createDoctorProfile(data);
             res.status(201).json(doctor);
         } catch (err) {

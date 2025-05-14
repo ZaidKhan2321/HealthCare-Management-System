@@ -32,4 +32,17 @@ export default class DoctorRepository {
     async deleteDoctorProfile(userId) {
         return await DoctorModel.findOneAndDelete({ userId });
     }
+
+    async getAllDoctors() {
+        return await DoctorModel.find({});
+    }
+
+    async countDoctors(query = {}) {
+        return await DoctorModel.countDocuments(query);
+    }
+
+    async getDoctorsPaginated(query = {}, skip = 0, limit = 30) {
+        return await DoctorModel.find(query).skip(skip).limit(limit);
+    }
+
 }

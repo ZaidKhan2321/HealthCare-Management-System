@@ -22,15 +22,23 @@ export const userSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    role : {
-        type : Number,
-        enum : [0, 1, 2],
-        required : true
-    },
     details:{
         type: Object,
         default: {}
     },
+    role: {
+        type: Number,
+        enum: [0, 1, 2], // 0=admin, 1=doctor, 2=patient
+        required: true
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    isApproved: {
+        type: Boolean,
+        default: false // For doctor approvals
+    }
 }, {timestamps:true}) ;
 
 

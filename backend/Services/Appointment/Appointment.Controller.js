@@ -1,9 +1,11 @@
 import AppointmentRepository from './Appointment.Repository.js';
 import { sendAppointmentNotification } from '../../utils/notificationService.js';
+import NotificationRepository from '../Notification/Notification.Repository.js';
 
 export default class AppointmentController {
     constructor() {
         this.appointmentRepo = new AppointmentRepository();
+        this.notificationRepo = new NotificationRepository();
     }
 
     // Book a new appointment
@@ -96,6 +98,13 @@ export default class AppointmentController {
 
             // Send notification on status change
             await sendAppointmentNotification(updatedAppointment);
+            await this.notificationRepo.createNotification({
+                userId: updatedAppointment.patientId, // Notify patient
+                type: 'appointment',
+                title: 'Appointment Status Updated',
+                message: `Your appointment on ${updatedAppointment.date} is now ${updatedAppointment.status}.`,
+                data: { appointmentId: updatedAppointment._id }
+            });
 
             return res.status(200).json(updatedAppointment);
         } catch (err) {

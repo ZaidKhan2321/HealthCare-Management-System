@@ -35,12 +35,35 @@ export const patientSchema = new mongoose.Schema({
         unique: true
     },
     personalInfo: {
-        firstName: { type: String, required: true },
-        lastName: { type: String, required: true },
-        gender: { type: String, required: true },
-        dateOfBirth: { type: Date, required: true },
-        contactNumber: { type: String, required: true },
-        address: { type: String, required: true }
+        firstName: { 
+            type: String, 
+            required: [true, 'First name is required'] 
+        },
+        lastName: { 
+            type: String, 
+            required: [true, 'Last name is required'] 
+        },
+        gender: { 
+            type: String, 
+            enum: ['male', 'female', 'other'],
+            required: [true, 'Gender is required'] 
+        },
+        dateOfBirth: { 
+            type: Date, 
+            required: [true, 'Date of birth is required'] 
+        },
+        contactNumber: { 
+            type: String, 
+            required: [true, 'Contact number is required'],
+            validate: {
+                validator: (v) => /^\d{10}$/.test(v),
+                message: 'Invalid phone number format'
+            }
+        },
+        address: { 
+            type: String, 
+            required: [true, 'Address is required'] 
+        }
     },
     demographics: {
         maritalStatus: String,

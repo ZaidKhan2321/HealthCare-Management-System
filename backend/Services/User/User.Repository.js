@@ -69,4 +69,15 @@ export default class UserRepository{
     async deleteUser(userId){
         return await UserModel.findOneAndDelete(userId) ;
     }
+
+    async findUsersByIds(userIds) {
+        return await UserModel.find({ _id: { $in: userIds } });
+    }
+
+    async findUsersByName(name) {
+        return await UserModel.find({
+            name: { $regex: name, $options: 'i' }
+        });
+    }
+
 }

@@ -1,5 +1,5 @@
 import UserRepository from "./User.Repository.js";
-import {generateToken, verifyToken} from '../utils/generateToken.js' ;
+import {generateToken, verifyToken} from '../../utils/generateToken.js' ;
 
 export default class UserController{
     constructor(){
@@ -88,7 +88,7 @@ export default class UserController{
                     _id: newUser._id,
                     name: newUser.name,
                     email: newUser.email,
-                    role: newUser.email,
+                    role: newUser.role,
                     token: tkn
                 } ;
                 return res.status(201).cookie('jwtToken', tkn, {maxAge: 2*24*60*60*1000}).json(data) ;

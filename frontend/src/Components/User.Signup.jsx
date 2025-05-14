@@ -18,9 +18,20 @@ const Signup = ()=>{
     const dispatch = useDispatch() ;
     const {loading, userInfo, error} = useSelector((state)=>state.userRegister) ;
     const navigate = useNavigate() ;
-    useEffect(()=>{
-        if(userInfo) navigate('/') ;
-    }, [userInfo, navigate]) ;
+    
+    useEffect(() => {
+        if(userInfo) {
+            if(userInfo.role === 2) { // Patient role
+                navigate('/create-patient-profile')
+            }else if(userInfo.role === 1){ // Doctor role
+                navigate('/create-doctor-profile')
+            } else {
+                navigate('/')
+            }
+        }
+    }, [userInfo, navigate])
+  
+
     useEffect(()=>{
         setPwdMatch(password === "" || (password === confirmPassword && confirmPassword !== "")) ; 
     }, [password, confirmPassword]) ;
